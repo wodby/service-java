@@ -1,0 +1,170 @@
+name: java
+type: service
+icon: java
+title: Java
+scalable: true
+guidance: GUIDANCE.md
+labels:
+- java
+- jvm
+options:
+- version: '25'
+  default: true
+  tag: 25-r0
+  devTag: 25-dev-r0
+- version: '21'
+  tag: 21-r0
+  devTag: 21-dev-r0
+endpoints:
+- name: java
+  ports:
+  - name: java
+    number: 8080
+    main: true
+    protocol: http
+
+links:
+- name: db
+  title: DBMS
+  required: false
+  env:
+  - name: DB_HOST
+    value: '{{link.database.host}}'
+  - name: DB_PORT
+    value: '{{link.database.port}}'
+  - name: DB_USERNAME
+    value: '{{link.database.user.name}}'
+  - name: DB_NAME
+    value: '{{link.database.db.name}}'
+  - name: DB_DATABASE
+    value: '{{link.database.db.name}}'
+  - name: DB_PASSWORD
+    value: '{{link.database.user.password}}'
+    secret: true
+  - name: DB_DRIVER
+    value: '{{link.database.driver}}'
+  - name: DB_CONNECTION
+    value: '{{link.database.driver}}'
+  - name: DATABASE_URL
+    value: '{{link.database.url}}'
+    secret: true
+  selectors:
+  - type: db
+    labels:
+    - mariadb
+  - type: db
+    labels:
+    - mysql
+  - type: db
+    labels:
+    - postgres
+- name: sendmail
+  title: Mail Transfer Agent
+  required: false
+  env:
+  - name: SMTP_HOST
+    value: '{{link.host}}'
+  - name: SMTP_PORT
+    value: '{{link.port}}'
+  selectors:
+  - type: service
+    labels:
+    - smtpd
+- name: redis
+  title: Redis
+  required: false
+  env:
+  - name: REDIS_PORT
+    value: '{{link.port}}'
+  - name: REDIS_HOST
+    value: '{{link.host}}'
+  - name: REDIS_PASSWORD
+    value: '{{link.tokens.password}}'
+    secret: true
+  selectors:
+  - type: datastore
+    labels:
+    - redis
+  - type: datastore
+    labels:
+    - valkey
+
+integrations:
+- name: variable
+  title: Variable
+  type: variable
+  required: false
+  multiple: true
+
+build:
+  dockerfile: Dockerfile
+  connect: true
+
+deployment:
+  strategy: rolling
+  maxUnavailable: 0
+  maxSurge: 1
+  minReady: 10s
+  progressDeadline: 15m
+  shutdownGracePeriod: 30s
+
+env:
+# The JVM sizes its heap from the container's memory limit.
+- name: JAVA_OPTS
+  value: -XX:MaxRAMPercentage=75.0
+
+helm:
+  name: wodby
+  source: oci://registry-1.docker.io/wodby/java
+  chart: oci://registry-1.docker.io/wodby/java
+  version: 0.1.0
+  valueMappings:
+    serviceAccountName: serviceAccount.name
+    serviceAccountCreate: serviceAccount.create
+
+workloads:
+- name: main
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: '{{helm.release}}'
+  kind: deployment
+  primary: true
+  helm:
+    labels: podLabels
+    annotations: podAnnotations
+    volumes: extraVolumes
+  containers:
+  - name: java
+    image: wodby/java
+    build: true
+    helm:
+      resources: resources
+      env: envVars
+      mounts: extraVolumeMounts
+
+workspace:
+  configuration: [/docker-entrypoint.sh, --configure-runtime]
+  runner:
+    workload: main
+    container: java
+    workingDirectory: /usr/src/app
+    homeDirectory: /home/wodby
+    username: wodby
+    uid: 1000
+    gid: 1000
+    port: 2222
+    command: [sudo, /usr/sbin/sshd, -D, -e, -f, /dev/null]
+  mounts:
+  - name: code
+    workload: main
+    container: java
+    path: /usr/src/app
+  preparation:
+  - name: dependencies
+    command: [workspace-java, prepare]
+    timeoutSeconds: 1800
+  # Dependencies and the build live in .wodby-workspace, which the image excludes itself.
+  # Maven and Gradle write their build output next to the source.
+  ignore: ['target/', 'build/', '.gradle/']
+  # workspace-java builds the checkout again and restarts the application when a file changes.
+  reload: watch
