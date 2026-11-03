@@ -99,6 +99,11 @@ integrations:
 build:
   dockerfile: Dockerfile
   connect: true
+  boilerplates:
+  - name: java
+    title: Java boilerplate
+    repo: https://github.com/wodby/java-boilerplate
+    branch: main
 
 deployment:
   strategy: rolling

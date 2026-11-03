@@ -11,16 +11,24 @@ configuration for Java.
 
 ## Start with a boilerplate
 
+Use one of the boilerplates exposed by this service to start with compatible
+build configuration and Wodby CI:
+
+- [Java boilerplate](https://github.com/wodby/java-boilerplate)
+
 The [Spring Boot service](https://github.com/wodby/service-spring-boot), based on this service, exposes the
 [Spring Boot boilerplate](https://github.com/wodby/spring-boot-boilerplate).
 
 ## Services based on this service
 
 - [Spring Boot](https://github.com/wodby/service-spring-boot)
+- [Kotlin](https://github.com/wodby/service-kotlin)
 
 ## Wodby stacks using this service
 
+- [Java application stack](https://github.com/wodby/stack-java)
 - [Spring Boot application stack](https://github.com/wodby/stack-spring-boot), through the Spring Boot service
+- [Kotlin application stack](https://github.com/wodby/stack-kotlin), through the Kotlin service
 
 ## Service overview
 
@@ -33,14 +41,14 @@ The [Spring Boot service](https://github.com/wodby/service-spring-boot), based o
 | Containers | `java` using `wodby/java`, build target |
 | Endpoints | `java`: HTTP 8080 (main) |
 | Service links | DBMS (`db`), optional, Mail Transfer Agent (`sendmail`), optional, Redis, optional |
-| Application build | Git source connection enabled; Dockerfile: `Dockerfile` |
+| Application build | Git source connection enabled; Dockerfile: `Dockerfile`; boilerplates: Java boilerplate |
 | Helm | chart `oci://registry-1.docker.io/wodby/java`; version `0.1.0` |
 | Configuration | 1 integration slots |
 
 ## Use this service
 
 Use this service in a custom Wodby stack by referencing `java`, or use the
-[Spring Boot application stack](https://github.com/wodby/stack-spring-boot).
+[Java application stack](https://github.com/wodby/stack-java).
 
 A service is a reusable component and does not deploy by itself. The stack
 defines its links, settings, versions, resources, and relationship to the rest
