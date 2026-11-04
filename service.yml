@@ -10,11 +10,11 @@ labels:
 options:
 - version: '25'
   default: true
-  tag: 25-r1
-  devTag: 25-dev-r1
+  tag: 25-r2
+  devTag: 25-dev-r2
 - version: '21'
-  tag: 21-r1
-  devTag: 21-dev-r1
+  tag: 21-r2
+  devTag: 21-dev-r2
 endpoints:
 - name: java
   ports:
