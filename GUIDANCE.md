@@ -26,8 +26,9 @@ Links to other services reach the application as environment variables. Nothing 
 | Database (MariaDB, MySQL or PostgreSQL) | `DB_HOST`, `DB_PORT`, `DB_NAME` (also `DB_DATABASE`), `DB_USERNAME`, `DB_PASSWORD`, `DB_DRIVER` (also `DB_CONNECTION`), `DATABASE_URL` |
 | Mail | `SMTP_HOST`, `SMTP_PORT` |
 | Redis or Valkey | `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD` |
+| OpenTelemetry Collector | `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_EXPORTER_OTLP_PROTOCOL` (`http/protobuf`), `OTEL_EXPORTER_OTLP_HEADERS` (the Collector's ingest token) |
 
-`DATABASE_URL` is a URL such as `postgresql://user:password@host:5432/db`, not a JDBC URL: build the JDBC URL from the `DB_*` variables, such as `jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}`. All three links are optional. A variable is present only while its link exists and the linked service is enabled. The mail link carries no credentials.
+`DATABASE_URL` is a URL such as `postgresql://user:password@host:5432/db`, not a JDBC URL: build the JDBC URL from the `DB_*` variables, such as `jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}`. All links are optional. A variable is present only while its link exists and the linked service is enabled. The mail link carries no credentials. The OpenTelemetry variables are the standard SDK settings: an application or agent that uses an OpenTelemetry SDK exports to the Collector without further configuration; set `OTEL_SERVICE_NAME` to name the application in traces.
 
 ## Environment
 
