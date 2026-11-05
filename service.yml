@@ -158,6 +158,12 @@ workloads:
   containers:
   - name: java
     image: wodby/java
+    resources:
+      request:
+        cpu: 100
+        memory: 496
+      limit:
+        memory: 2304
     build: true
     helm:
       resources: resources
