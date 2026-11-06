@@ -10,12 +10,12 @@ labels:
 options:
 - version: '25'
   default: true
-  tag: 25-r3
-  devTag: 25-dev-r3
+  tag: 25-r4
+  devTag: 25-dev-r4
   eol: '2031-09-30T00:00:00+00:00'
 - version: '21'
-  tag: 21-r3
-  devTag: 21-dev-r3
+  tag: 21-r4
+  devTag: 21-dev-r4
   eol: '2029-12-31T00:00:00+00:00'
 endpoints:
 - name: java
