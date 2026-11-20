@@ -11,11 +11,15 @@ options:
 - version: '25'
   default: true
   tag: 25-r4
+  digest: sha256:d2371200c2b0ec3b703167e7b67a3298814066ab5579f6fee30c865b117271f9
   devTag: 25-dev-r4
+  devDigest: sha256:90c9d5e46011c0e847ae268ae48956697b2b8f166c2a12b553519757a9469a3d
   eol: '2031-09-30T00:00:00+00:00'
 - version: '21'
   tag: 21-r4
+  digest: sha256:5de75411d91ca692abf2163730633973f685dda4f8fc490e5d6705551fd1ac43
   devTag: 21-dev-r4
+  devDigest: sha256:6902d1321c270bd1a1b55ead14ecc5edac6d7a7f04212e43ad17b45658c1e920
   eol: '2029-12-31T00:00:00+00:00'
 endpoints:
 - name: java
