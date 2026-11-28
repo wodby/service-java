@@ -14,13 +14,13 @@ options:
   digest: sha256:0300b7cd5e54266d1a301c218e87e3b8f194cded4804f86251f7e2d523a483b0
   devTag: 25-dev-r5
   devDigest: sha256:db0fba67df5e02d10579dcb058a6a0997846ea91faf62a852a4baea812e976c9
-  eol: '2031-09-30T00:00:00+00:00'
+  eol: '2033-09-30T00:00:00+00:00'
 - version: '21'
   tag: 21-r5
   digest: sha256:577100d69c930db3810aaeb8f594b2718415dc6294a8311bd4e16dbdfabb02df
   devTag: 21-dev-r5
   devDigest: sha256:f3f13b338d8eb6af98cf02405119133723201885e027e9777fdc2b9917b06f03
-  eol: '2029-12-31T00:00:00+00:00'
+  eol: '2031-09-30T00:00:00+00:00'
 endpoints:
 - name: java
   ports:
